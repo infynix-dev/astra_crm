@@ -34,7 +34,7 @@ services:
     environment:
       SHELL: /bin/bash
     volumes:
-      - .:/workspace
+      - ./init.sh:/workspace/init.sh
       - frappe-sites:/home/frappe/frappe-bench/sites
       - frappe-logs:/home/frappe/frappe-bench/logs
     expose:
