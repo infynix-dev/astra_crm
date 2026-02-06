@@ -29,7 +29,8 @@ services:
     depends_on:
       - mariadb
       - redis
-    command: bash /workspace/init.sh
+    #command: bash /workspace/init.sh
+    command: sleep infinity
     working_dir: /home/frappe
     environment:
       SHELL: /bin/bash
