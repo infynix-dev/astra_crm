@@ -1,14 +1,18 @@
 #!/bin/bash
 set -e
 
+echo "Starting Frappe bootstrap..."
+
+# 1️⃣ Fix permissions FIRST (this is critical)
+chown -R frappe:frappe /home/frappe || true
+
+# 2️⃣ Switch to frappe user for bench commands
+exec su frappe -c '
 cd /home/frappe
 
-# Fix permissions every start (safe & required)
-chown -R frappe:frappe /home/frappe/frappe-bench || true
-
-# If site already exists, just start
-if [ -f "frappe-bench/sites/common_site_config.json" ]; then
-  echo "Bench & site already exist. Starting server..."
+# If bench already exists, just start
+if [ -d "frappe-bench" ] && [ -f "frappe-bench/sites/common_site_config.json" ]; then
+  echo "Bench already exists. Starting..."
   cd frappe-bench
   bench start
   exit 0
@@ -37,3 +41,4 @@ bench use crm.localhost
 
 bench clear-cache
 bench start
+'

@@ -5,9 +5,6 @@ USER root
 WORKDIR /home/frappe
 
 COPY init.sh /home/frappe/init.sh
-
-RUN chown frappe:frappe /home/frappe/init.sh
-
-USER frappe
+RUN chmod +x /home/frappe/init.sh
 
 CMD ["bash", "/home/frappe/init.sh"]

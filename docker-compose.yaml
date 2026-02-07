@@ -5,7 +5,7 @@ services:
     image: mariadb:10.8
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: test123
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -20,7 +20,7 @@ services:
       - mariadb
       - redis
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: test123
     volumes:
       - frappe-sites:/home/frappe/frappe-bench/sites
       - frappe-logs:/home/frappe/frappe-bench/logs
