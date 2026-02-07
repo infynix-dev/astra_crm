@@ -1,17 +1,9 @@
 version: "3.8"
 
-name: frappe-crm
-
 services:
   mariadb:
     image: mariadb:10.8
-    container_name: frappe_mariadb
     restart: unless-stopped
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-      - --skip-character-set-client-handshake
-      - --skip-innodb-read-only-compressed
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
@@ -19,23 +11,17 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: frappe_redis
     restart: unless-stopped
 
   frappe:
-    image: frappe/bench:latest
-    container_name: frappe_app
+    build: .
     restart: unless-stopped
     depends_on:
       - mariadb
       - redis
-    command: bash /home/frappe/setup/init.sh
-    #command: sleep infinity
-    working_dir: /home/frappe
     environment:
-      SHELL: /bin/bash
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - .:/home/frappe/setup
       - frappe-sites:/home/frappe/frappe-bench/sites
       - frappe-logs:/home/frappe/frappe-bench/logs
     expose:
